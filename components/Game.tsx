@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {secondaryFontColor} from '../styles';
+import {primaryFontColor, secondaryFontColor} from '../styles';
 import Card from './Card';
 
 const Game = () => {
@@ -13,6 +13,17 @@ const Game = () => {
         <Text style={styles['sub-heading']}>Flips {flipsTotal}</Text>
       </View>
       <View style={styles['cards-container']}>
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
+        <Card image="bat" />
         <Card image="bat" />
       </View>
     </View>

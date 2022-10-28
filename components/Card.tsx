@@ -1,60 +1,87 @@
-import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
-import {getImage} from '../infrastructure/imageSource';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Animated,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import images, {ImageDictionaryKeys} from '../infrastructure/imageSource';
 import {primaryFontColor, secondaryFontColor} from '../styles';
 
 type Props = {
-  image: string;
+  image: ImageDictionaryKeys;
 };
 
 const Card = ({image}: Props) => {
-  const cobwebImage = getImage('cobweb');
-  const cobwebGrayImage = getImage('cobwebGray');
-  const [visible, setVisible] = useState(false);
+  const cardFlipAnimationValue = useRef(new Animated.Value(0)).current;
+  const [visible, setVisible] = useState({value: 0, animating: false});
+
+  const cardBackTranslationValue = cardFlipAnimationValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '-180deg'],
+  });
+
+  const cardFrontTranslationValue = cardFlipAnimationValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', '0deg'],
+  });
+
+  const startCardFlipAnimation = () => {
+    if (visible.animating) return;
+    Animated.timing(cardFlipAnimationValue, {
+      toValue: visible.value,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => {
+      setVisible(({value}) => ({value, animating: false}));
+    });
+    setVisible(({value}) => ({value: value === 0 ? 1 : 0, animating: true}));
+  };
 
   return (
-    <TouchableWithoutFeedback onPress={() => setVisible(value => !value)}>
+    <TouchableWithoutFeedback onPress={startCardFlipAnimation}>
       <View style={[styles.card]}>
-        <View
+        <Animated.View
           style={[
             styles['card-face'],
             styles['card-back'],
-            visible && {transform: [{rotateY: '-180deg'}]},
+            {transform: [{rotateY: cardBackTranslationValue}]},
           ]}>
           <Image
             style={[styles.cobweb, styles['cobweb-top-left']]}
-            source={cobwebImage}></Image>
+            source={images.cobweb}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-top-right']]}
-            source={cobwebImage}></Image>
+            source={images.cobweb}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-bottom-left']]}
-            source={cobwebImage}></Image>
+            source={images.cobweb}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-bottom-right']]}
-            source={cobwebImage}></Image>
-          <Image style={styles.spider} source={getImage('spider')}></Image>
-        </View>
-        <View
+            source={images.cobweb}></Image>
+          <Image style={styles.spider} source={images.spider}></Image>
+        </Animated.View>
+        <Animated.View
           style={[
             styles['card-face'],
             styles['card-front'],
-            visible && {transform: [{rotateY: '0deg'}]},
+            {transform: [{rotateY: cardFrontTranslationValue}]},
           ]}>
           <Image
             style={[styles.cobweb, styles['cobweb-top-left']]}
-            source={cobwebGrayImage}></Image>
+            source={images.cobwebGray}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-top-right']]}
-            source={cobwebGrayImage}></Image>
+            source={images.cobwebGray}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-bottom-left']]}
-            source={cobwebGrayImage}></Image>
+            source={images.cobwebGray}></Image>
           <Image
             style={[styles.cobweb, styles['cobweb-bottom-right']]}
-            source={cobwebGrayImage}></Image>
-          <Image style={styles['card-value']} source={getImage(image)}></Image>
-        </View>
+            source={images.cobwebGray}></Image>
+          <Image style={styles['card-value']} source={images[image]}></Image>
+        </Animated.View>
       </View>
     </TouchableWithoutFeedback>
   );

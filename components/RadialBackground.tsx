@@ -4,7 +4,7 @@ import RadialGradient from 'react-native-radial-gradient';
 import {primaryBgColor, secondaryBgColor} from '../styles';
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 };
 
 const Background = ({children}: Props) => {

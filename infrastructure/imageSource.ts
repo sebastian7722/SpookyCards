@@ -1,11 +1,11 @@
 import {ImageSourcePropType} from 'react-native';
 
-type Image = {
+type ImageDeprecated = {
   name: string;
   image: ImageSourcePropType;
 };
 
-const images: Image[] = [
+const imagesDeprecated: ImageDeprecated[] = [
   {name: 'bat', image: require('../assets/images/Bat.png')},
   {name: 'bones', image: require('../assets/images/Bones.png')},
   {name: 'cardBack', image: require('../assets/images/CardBack.png')},
@@ -20,7 +20,37 @@ const images: Image[] = [
   {name: 'spider', image: require('../assets/images/Spider.png')},
 ];
 
+export type ImageDictionaryKeys =
+  | 'bat'
+  | 'bones'
+  | 'cardBack'
+  | 'cauldron'
+  | 'cobweb'
+  | 'cobwebGray'
+  | 'dracula'
+  | 'eye'
+  | 'ghost'
+  | 'pumpkin'
+  | 'skull'
+  | 'spider';
+type ImageDictionaryItem = Record<ImageDictionaryKeys, ImageSourcePropType>;
+
+export const images: ImageDictionaryItem = {
+  bat: require('../assets/images/Bat.png'),
+  bones: require('../assets/images/Bones.png'),
+  cardBack: require('../assets/images/CardBack.png'),
+  cauldron: require('../assets/images/Cauldron.png'),
+  cobweb: require('../assets/images/Cobweb.png'),
+  cobwebGray: require('../assets/images/CobwebGray.png'),
+  dracula: require('../assets/images/Dracula.png'),
+  eye: require('../assets/images/Eye.png'),
+  ghost: require('../assets/images/Ghost.png'),
+  pumpkin: require('../assets/images/Pumpkin.png'),
+  skull: require('../assets/images/Skull.png'),
+  spider: require('../assets/images/Spider.png'),
+};
+
 export const getImage = (imageName: string) =>
-  images.find(image => image.name === imageName)?.image;
+  imagesDeprecated.find(image => image.name === imageName)?.image;
 
 export default images;
