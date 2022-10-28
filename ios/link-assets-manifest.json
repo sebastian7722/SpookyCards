@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Creepy.ttf",
+      "sha1": "6f05a2ade78a264ab5208d127f9f2c46ed982ad7"
+    },
+    {
+      "path": "assets/fonts/Lunacy.ttf",
+      "sha1": "47e6e8f201b44049cedac60c23095babe5f45bff"
+    }
+  ]
+}
