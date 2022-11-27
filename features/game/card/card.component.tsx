@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {
   Animated,
   Image,
@@ -6,16 +6,21 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import images, {ImageDictionaryKeys} from '../infrastructure/imageSource';
-import {primaryFontColor, secondaryFontColor} from '../styles';
+import images from '../../../assets/images';
+import {useAppDispatch, useAppSelector} from '../../../hooks/use-redux';
+import {primaryFontColor, secondaryFontColor} from '../../../styles';
+import {incrementFlips} from '../statistics/statistics.slice';
+import {selectCard, setIsAnimating, setIsFront} from './card.slice';
 
-type Props = {
-  image: ImageDictionaryKeys;
-};
+interface ICardProps {
+  image: string;
+}
 
-const Card = ({image}: Props) => {
+const Card = ({image}: ICardProps) => {
+  const {isFront, isAnimating} = useAppSelector(selectCard);
+  const dispatch = useAppDispatch();
+
   const cardFlipAnimationValue = useRef(new Animated.Value(0)).current;
-  const [visible, setVisible] = useState({value: 0, animating: false});
 
   const cardBackTranslationValue = cardFlipAnimationValue.interpolate({
     inputRange: [0, 1],
@@ -27,20 +32,27 @@ const Card = ({image}: Props) => {
     outputRange: ['180deg', '0deg'],
   });
 
+  console.log(isFront);
+
   const startCardFlipAnimation = () => {
-    if (visible.animating) return;
+    dispatch(setIsAnimating(true));
     Animated.timing(cardFlipAnimationValue, {
-      toValue: visible.value,
-      duration: 500,
+      toValue: isFront ? 0 : 1,
+      duration: 400,
       useNativeDriver: true,
     }).start(() => {
-      setVisible(({value}) => ({value, animating: false}));
+      dispatch(setIsAnimating(false));
+      dispatch(incrementFlips());
     });
-    setVisible(({value}) => ({value: value === 0 ? 1 : 0, animating: true}));
+  };
+
+  const cardFlipHandler = () => {
+    if (isAnimating) return;
+    startCardFlipAnimation();
   };
 
   return (
-    <TouchableWithoutFeedback onPress={startCardFlipAnimation}>
+    <TouchableWithoutFeedback onPress={cardFlipHandler}>
       <View style={[styles.card]}>
         <Animated.View
           style={[
@@ -86,8 +98,6 @@ const Card = ({image}: Props) => {
     </TouchableWithoutFeedback>
   );
 };
-
-export default Card;
 
 const styles = StyleSheet.create({
   card: {
@@ -148,3 +158,5 @@ const styles = StyleSheet.create({
     transform: [{scale: 0.7}],
   },
 });
+
+export default Card;

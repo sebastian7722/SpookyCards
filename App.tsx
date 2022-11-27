@@ -1,43 +1,17 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import Game from './components/Game';
-import RadialBackground from './components/RadialBackground';
-import {primaryFontColor} from './styles';
+import {SafeAreaView} from 'react-native';
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
+import Game from './pages/game';
 
 const App = () => {
   return (
     <SafeAreaView>
-      <RadialBackground>
-        <ScrollView>
-          <Game />
-        </ScrollView>
-        <View style={styles['game-overlay']}>
-          <Text style={styles['game-overlay-text']}>Click to start</Text>
-        </View>
-      </RadialBackground>
+      <Provider store={store}>
+        <Game />
+      </Provider>
     </SafeAreaView>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  'game-overlay': {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    zIndex: 100,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    display: 'none',
-  },
-  'game-overlay-text': {
-    fontSize: 65,
-    fontFamily: 'Creepy',
-    color: primaryFontColor,
-  },
-});

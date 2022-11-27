@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, ScaledSize} from 'react-native';
 import RadialGradient from 'react-native-radial-gradient';
-import {primaryBgColor, secondaryBgColor} from '../styles';
+import {primaryBgColor, secondaryBgColor} from '../../../styles';
 
-type Props = {
+interface Props {
   children: JSX.Element | JSX.Element[];
-};
+}
 
 const Background = ({children}: Props) => {
   const [{width: deviceWidth, height: deviceHeight}, setCurrentDimensions] =

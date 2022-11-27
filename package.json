@@ -10,9 +10,12 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.0",
     "react": "18.1.0",
     "react-native": "0.70.2",
-    "react-native-radial-gradient": "^1.1.2"
+    "react-native-radial-gradient": "^1.1.2",
+    "react-native-sound": "^0.11.2",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
