@@ -32,8 +32,6 @@ const Card = ({image}: ICardProps) => {
     outputRange: ['180deg', '0deg'],
   });
 
-  console.log(isFront);
-
   const startCardFlipAnimation = () => {
     dispatch(setIsAnimating(true));
     Animated.timing(cardFlipAnimationValue, {
@@ -99,11 +97,17 @@ const Card = ({image}: ICardProps) => {
   );
 };
 
+const cardWidth = 76;
+const cardHeight = cardWidth * 1.4;
+const cobwebWidth = cardWidth * 0.376;
+const cardValueScale = cardWidth * 0.007;
+const cardSpiderScale = cardWidth * 0.008;
+
 const styles = StyleSheet.create({
   card: {
     position: 'relative',
-    minWidth: 100,
-    minHeight: 140,
+    minWidth: cardWidth,
+    minHeight: cardHeight,
     margin: 5,
   },
   'card-face': {
@@ -129,8 +133,8 @@ const styles = StyleSheet.create({
   },
   cobweb: {
     position: 'absolute',
-    width: 37.6,
-    height: 37.6,
+    width: cobwebWidth,
+    height: cobwebWidth,
   },
   'cobweb-top-left': {
     transform: [{rotate: '270deg'}],
@@ -152,10 +156,10 @@ const styles = StyleSheet.create({
     right: 0,
   },
   spider: {
-    transform: [{translateY: -18}, {scale: 0.8}],
+    transform: [{translateY: -30}, {scale: cardSpiderScale}],
   },
   'card-value': {
-    transform: [{scale: 0.7}],
+    transform: [{scale: cardValueScale}],
   },
 });
 

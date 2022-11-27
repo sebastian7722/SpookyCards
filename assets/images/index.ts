@@ -1,6 +1,18 @@
 import {ImageSourcePropType} from 'react-native';
 
-interface IImages {
+export interface IImages {
+  bat: ImageSourcePropType;
+  bones: ImageSourcePropType;
+  cardBack: ImageSourcePropType;
+  cauldron: ImageSourcePropType;
+  cobweb: ImageSourcePropType;
+  cobwebGray: ImageSourcePropType;
+  dracula: ImageSourcePropType;
+  eye: ImageSourcePropType;
+  ghost: ImageSourcePropType;
+  pumpkin: ImageSourcePropType;
+  skull: ImageSourcePropType;
+  spider: ImageSourcePropType;
   [key: string]: ImageSourcePropType;
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import Card from '../features/game/card';
+import Cards from '../features/game/cards';
 import Overlay from '../features/game/overlay';
 import GameStatistics from '../features/game/statistics';
 import RadialBackground from '../features/ui/radial-background';
@@ -11,19 +11,8 @@ const Game = () => {
       <ScrollView>
         <View style={styles.container}>
           <GameStatistics />
-          <View style={styles['cards-container']}>
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
-            <Card image="bat" />
+          <View style={styles['cards-wrapper']}>
+            <Cards />
           </View>
         </View>
       </ScrollView>
@@ -35,14 +24,9 @@ const Game = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 26,
+    flexGrow: 1,
   },
-  'cards-container': {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginTop: 10,
-    marginHorizontal: -5,
-  },
+  'cards-wrapper': {},
 });
 
 export default Game;
