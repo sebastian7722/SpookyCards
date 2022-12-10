@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   Animated,
   StyleSheet,
@@ -7,15 +7,12 @@ import {
 } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../hooks/use-redux';
 import {primaryFontColor} from '../../../styles';
+import {resetCards} from '../cards/cards.slice';
 import {selectOverlay, setVisibility} from './overlay.slice';
 
 const Overlay = () => {
   const {isVisible, title, subtitle} = useAppSelector(selectOverlay);
   const dispatch = useAppDispatch();
-
-  const startGame = () => {
-    animateOverlay();
-  };
 
   const containerAnimationValue = useRef(new Animated.Value(1)).current;
 
@@ -25,14 +22,20 @@ const Overlay = () => {
       duration: 500,
       useNativeDriver: true,
     }).start(() => {
-      dispatch(setVisibility(!isVisible));
+      dispatch(setVisibility(false));
     });
   };
+
+  useEffect(() => {
+    if (isVisible) {
+      dispatch(resetCards());
+    }
+  }, [isVisible]);
 
   return (
     <>
       {isVisible && (
-        <TouchableWithoutFeedback onPress={startGame}>
+        <TouchableWithoutFeedback onPress={animateOverlay}>
           <Animated.View
             style={[
               styles['game-overlay'],

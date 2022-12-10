@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
     margin: 26,
     flexGrow: 1,
   },
-  'cards-wrapper': {},
+  'cards-wrapper': {
+    //maxWidth: 500,
+  },
 });
 
 export default Game;

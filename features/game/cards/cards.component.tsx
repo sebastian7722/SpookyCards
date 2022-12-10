@@ -1,29 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Card from '../card';
-import images, {IImages} from '../../../assets/images';
+import {useDispatch} from 'react-redux';
+import {useAppSelector} from '../../../hooks/use-redux';
+import ViewWithDimensions from '../../ui/view-with-dimensions';
+import {setVictory} from '../overlay/overlay.slice';
+import Card from './card';
+import {selectCards} from './cards.slice';
 
 const Cards = () => {
-  const availableCardImages: string[] = [
-    'bat',
-    'bones',
-    'cauldron',
-    'dracula',
-    'eye',
-    'ghost',
-    'pumpkin',
-    'skull',
-  ];
+  const cards = useAppSelector(selectCards);
+  const dispatch = useDispatch();
 
-  const cardDeck: string[] = Array(2).fill(availableCardImages).flat();
-  const shuffledCardDeck = shuffle(cardDeck);
+  useEffect(() => {
+    const allCardsTurned = cards.every(x => x.isFlipped);
+
+    if (allCardsTurned) {
+      dispatch(setVictory());
+    }
+  }, [cards]);
+
+  const [{width}, setDimensions] = useState<{
+    height: number;
+    width: number;
+  }>({width: 0, height: 0});
+
+  console.log(width);
 
   return (
-    <View style={styles['cards-container']}>
-      {shuffledCardDeck.map((cardName, index) => (
-        <Card image={cardName} key={index} />
-      ))}
-    </View>
+    <ViewWithDimensions
+      style={styles['cards-container']}
+      onDimensions={setDimensions}>
+      {cards.map(cardProps => {
+        const cardWidth = (width - 42) / 4;
+        return <Card key={cardProps.id} {...cardProps} cardWidth={cardWidth} />;
+      })}
+    </ViewWithDimensions>
   );
 };
 
@@ -36,21 +47,5 @@ const styles = StyleSheet.create({
     marginHorizontal: -5,
   },
 });
-
-function shuffle(array: any[]) {
-  let currentIndex: number = array.length;
-  let randomIndex: number = 0;
-
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-}
 
 export default Cards;

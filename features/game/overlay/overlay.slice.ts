@@ -6,11 +6,15 @@ interface IOverlayState {
   isVisible: boolean;
   title: string;
   subtitle?: string;
+  time: number;
 }
+
+const initialTime: number = 100;
 
 const initialState: IOverlayState = {
   isVisible: true,
   title: 'Click to start',
+  time: initialTime,
 };
 
 export const overlaySlice = createSlice({
@@ -26,11 +30,31 @@ export const overlaySlice = createSlice({
     setSubtitle: (state, action: PayloadAction<string | undefined>) => {
       state.subtitle = action.payload;
     },
+    decrementTime: state => {
+      state.time -= 1;
+
+      if (state.time < 0) {
+        state.isVisible = true;
+        state.title = 'GAME OVER';
+        state.subtitle = 'Click to restart';
+        state.time = initialTime;
+      }
+    },
+    setVictory: state => {
+      state.isVisible = true;
+      state.title = 'VICTORY';
+      state.subtitle = 'Click to restart';
+      state.time = initialTime;
+    },
   },
 });
 
-export const {setVisibility, setTitle, setSubtitle} = overlaySlice.actions;
+export const {setVisibility, setTitle, setSubtitle, decrementTime, setVictory} =
+  overlaySlice.actions;
 
 export const selectOverlay = (state: RootState) => state.overlay;
+export const selectTime = (state: RootState) => state.overlay.time;
+export const selectIsOverlayVisible = (state: RootState) =>
+  state.overlay.isVisible;
 
 export default overlaySlice.reducer;

@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {secondaryFontColor} from '../../../styles';
+import {useGameTime} from '../../../hooks/use-game-time';
 import {useAppSelector} from '../../../hooks/use-redux';
-import {selectStatistics} from './statistics.slice';
+import {secondaryFontColor} from '../../../styles';
+import {selectFlips} from '../cards/cards.slice';
 
 const GameStats = () => {
-  const {time, flips} = useAppSelector(selectStatistics);
+  const flips = useAppSelector(selectFlips);
+  const time = useGameTime();
 
   return (
     <View style={styles.header}>
