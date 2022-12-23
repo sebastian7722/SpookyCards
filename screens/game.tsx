@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Button, ScrollView, StyleSheet, View} from 'react-native';
 import Cards from '../features/game/cards';
 import Overlay from '../features/game/overlay';
 import GameStatistics from '../features/game/statistics';

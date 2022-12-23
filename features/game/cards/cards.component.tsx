@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../../hooks/use-redux';
 import ViewWithDimensions from '../../ui/view-with-dimensions';
@@ -23,8 +23,6 @@ const Cards = () => {
     height: number;
     width: number;
   }>({width: 0, height: 0});
-
-  console.log(width);
 
   return (
     <ViewWithDimensions
